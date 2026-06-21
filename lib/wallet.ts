@@ -1,7 +1,7 @@
 import { createClient } from "genlayer-js";
-import { studionet } from "genlayer-js/chains";
+import { testnetBradbury } from "genlayer-js/chains";
 
-export const GENLAYER_NETWORK = studionet;
+export const GENLAYER_NETWORK = testnetBradbury;
 
 export type EthereumProvider = {
   request: (
