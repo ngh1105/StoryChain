@@ -82,7 +82,7 @@ export default function ChainPage({
 
       {wrongNetwork && (
         <p className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-          Switch your wallet to the <strong>Genlayer Studio Network</strong> to add
+          Switch your wallet to the <strong>GenLayer Studio Network</strong> to add
           sentences.
         </p>
       )}

@@ -23,7 +23,7 @@ type WalletContextValue = {
   chainId: string | null;
   status: Status;
   error: string | null;
-  /** true when a wallet is connected but not on the Bradbury chain */
+  /** true when a wallet is connected but not on the Studio network */
   wrongNetwork: boolean;
   hasWallet: boolean;
   connect: () => Promise<void>;

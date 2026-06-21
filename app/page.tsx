@@ -85,7 +85,7 @@ export default function Home() {
       {wrongNetwork && (
         <p className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
           Your wallet is on the wrong network. Switch to the{" "}
-          <strong>Genlayer Studio Network</strong> to create chains and add
+          <strong>GenLayer Studio Network</strong> to create chains and add
           sentences.
         </p>
       )}
@@ -183,7 +183,7 @@ export default function Home() {
       </section>
 
       <footer className="mt-12 border-t border-slate-200 pt-4 text-center text-xs text-slate-400">
-        StoryChain · Genlayer Studio Network
+        StoryChain · GenLayer Studio Network
       </footer>
     </main>
   );
