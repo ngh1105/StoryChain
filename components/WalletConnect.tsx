@@ -1,54 +1,75 @@
 "use client";
 
-import { useState } from "react";
-import { getBrowserEthereumProvider, type EthereumProvider } from "@/lib/wallet";
+import { useWallet } from "@/components/WalletProvider";
+import { explorerAddressUrl, shortAddr } from "@/lib/wallet";
 
-export function WalletConnect({
-  onConnect,
-}: {
-  onConnect: (account: `0x${string}`, provider: EthereumProvider) => void;
-}) {
-  const [addr, setAddr] = useState<`0x${string}` | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+export function WalletConnect() {
+  const {
+    account,
+    status,
+    error,
+    wrongNetwork,
+    hasWallet,
+    connect,
+    disconnect,
+    switchNetwork,
+  } = useWallet();
 
-  async function connect() {
-    setErr(null);
-    const provider = getBrowserEthereumProvider();
-    if (!provider) {
-      setErr("No Ethereum wallet found. Install MetaMask or the GenLayer wallet.");
-      return;
-    }
-    try {
-      const accounts = (await provider.request({
-        method: "eth_requestAccounts",
-      })) as string[];
-      if (!accounts?.length) {
-        setErr("No account returned by wallet.");
-        return;
-      }
-      const account = accounts[0] as `0x${string}`;
-      setAddr(account);
-      onConnect(account, provider);
-    } catch (e) {
-      setErr(String((e as Error)?.message ?? e));
-    }
+  if (status === "connected" && account) {
+    return (
+      <div className="flex items-center gap-2">
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+            wrongNetwork
+              ? "bg-amber-100 text-amber-800"
+              : "bg-emerald-100 text-emerald-800"
+          }`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              wrongNetwork ? "bg-amber-500" : "bg-emerald-500"
+            }`}
+          />
+          {wrongNetwork ? "Wrong network" : "Bradbury"}
+        </span>
+        <a
+          href={explorerAddressUrl(account)}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full bg-gray-100 px-2.5 py-1 font-mono text-xs text-gray-700 hover:bg-gray-200"
+          title="View on explorer"
+        >
+          {shortAddr(account)}
+        </a>
+        <button
+          onClick={disconnect}
+          className="rounded-full px-2 py-1 text-xs text-gray-400 hover:text-gray-700"
+          title="Disconnect"
+        >
+          ✕
+        </button>
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center gap-3">
-      {addr ? (
-        <span className="text-sm text-gray-600">
-          Connected: {addr.slice(0, 6)}…{addr.slice(-4)}
-        </span>
-      ) : (
+    <div className="flex flex-col items-end gap-1">
+      <button
+        onClick={connect}
+        disabled={status === "connecting"}
+        className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+      >
+        {status === "connecting" ? "Connecting…" : "Connect wallet"}
+      </button>
+      {wrongNetwork && hasWallet && (
         <button
-          onClick={connect}
-          className="rounded bg-black px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-800"
+          onClick={switchNetwork}
+          className="text-xs font-medium text-amber-700 underline hover:text-amber-900"
         >
-          Connect wallet
+          Switch to Bradbury network
         </button>
       )}
-      {err && <span className="text-sm text-red-600">{err}</span>}
+      {error && <span className="text-xs text-red-600">{error}</span>}
     </div>
   );
 }

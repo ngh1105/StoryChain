@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-feature-settings: "ss01", "cv02", "cv03";
+}
+
+/* Story prose readability */
+.prose-story p {
+  line-height: 1.7;
+}

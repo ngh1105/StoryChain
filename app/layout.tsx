@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { WalletProvider } from "@/components/WalletProvider";
 
 export const metadata: Metadata = {
   title: "StoryChain",
@@ -9,8 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased">
-        {children}
+      <body className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 text-slate-900 antialiased">
+        <WalletProvider>
+          <div className="min-h-screen">{children}</div>
+        </WalletProvider>
       </body>
     </html>
   );
