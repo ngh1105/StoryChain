@@ -30,7 +30,7 @@ export function WalletConnect() {
               wrongNetwork ? "bg-amber-500" : "bg-emerald-500"
             }`}
           />
-          {wrongNetwork ? "Wrong network" : "Bradbury"}
+          {wrongNetwork ? "Wrong network" : "Studio"}
         </span>
         <a
           href={explorerAddressUrl(account)}
@@ -66,7 +66,7 @@ export function WalletConnect() {
           onClick={switchNetwork}
           className="text-xs font-medium text-amber-700 underline hover:text-amber-900"
         >
-          Switch to Bradbury network
+          Switch to Studio network
         </button>
       )}
       {error && <span className="text-xs text-red-600">{error}</span>}

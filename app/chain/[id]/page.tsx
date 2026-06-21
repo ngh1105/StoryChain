@@ -9,7 +9,7 @@ import {
   addSentence,
   CONTRACT_NOT_SET,
 } from "@/lib/genlayerClient";
-import { explorerTxUrl, shortAddr } from "@/lib/wallet";
+import { explorerAddressUrl, explorerTxUrl, shortAddr } from "@/lib/wallet";
 import type { StoryChain, Sentence } from "@/lib/schemas";
 
 export default function ChainPage({
@@ -53,7 +53,7 @@ export default function ChainPage({
     setBusy(true);
     setMsg({
       kind: "info",
-      text: "Submitting — AI validators are checking coherence (this takes a minute or two on Bradbury)…",
+      text: "Submitting — AI validators are checking coherence (this takes a moment on Studio)…",
     });
     const outcome = await addSentence(id, sentence, account, provider);
     setBusy(false);
@@ -82,7 +82,7 @@ export default function ChainPage({
 
       {wrongNetwork && (
         <p className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-          Switch your wallet to the <strong>Genlayer Bradbury Testnet</strong> to add
+          Switch your wallet to the <strong>Genlayer Studio Network</strong> to add
           sentences.
         </p>
       )}
@@ -114,7 +114,7 @@ export default function ChainPage({
             >
               {s.text}
               <a
-                href={`https://explorer-bradbury.genlayer.com/address/${s.author}`}
+                href={explorerAddressUrl(s.author)}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-2 block font-mono text-xs text-slate-400 hover:text-slate-600"

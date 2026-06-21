@@ -9,8 +9,8 @@ import {
   useState,
 } from "react";
 import {
-  BRADBURY_CHAIN_ID_HEX,
-  BRADBURY_CHAIN_PARAMS,
+  NETWORK_CHAIN_ID_HEX,
+  NETWORK_CHAIN_PARAMS,
   getBrowserEthereumProvider,
   type EthereumProvider,
 } from "@/lib/wallet";
@@ -87,7 +87,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     try {
       await provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: BRADBURY_CHAIN_ID_HEX }],
+        params: [{ chainId: NETWORK_CHAIN_ID_HEX }],
       });
       setError(null);
     } catch (e) {
@@ -97,7 +97,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         try {
           await provider.request({
             method: "wallet_addEthereumChain",
-            params: [BRADBURY_CHAIN_PARAMS],
+            params: [NETWORK_CHAIN_PARAMS],
           });
           setError(null);
         } catch (e2) {
@@ -150,7 +150,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     const wrong =
       status === "connected" &&
       typeof chainId === "string" &&
-      chainId.toLowerCase() !== BRADBURY_CHAIN_ID_HEX;
+      chainId.toLowerCase() !== NETWORK_CHAIN_ID_HEX;
     return {
       account,
       provider,
