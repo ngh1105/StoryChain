@@ -84,14 +84,12 @@ class StoryChainIC(gl.Contract):
         try:
             data = json.loads(chain_json)
         except Exception as e:
-            print(f"create_chain JSON error: {e}")
-            return
+            raise Exception(f"create_chain: invalid JSON: {e}")
 
         title = str(data.get("title", "")).strip()
         premise = str(data.get("premise", "")).strip()
         if not title or not premise:
-            print("create_chain: title and premise are required")
-            return
+            raise Exception("create_chain: title and premise are required")
 
         self.chain_counter = self.chain_counter + u256(1)
         chain_id = f"chain_{int(self.chain_counter)}"
@@ -119,8 +117,9 @@ class StoryChainIC(gl.Contract):
         chain = self.chains[chain_id]
 
         # build the story-so-far as validator context
+        sentences = self.chain_sentences.get_or_insert_default(chain_id)
         parts = [f"[Premise] {chain.premise}"]
-        for s in self.chain_sentences.get_or_insert_default(chain_id):
+        for s in sentences:
             parts.append(s.text)
         story_so_far = "\n".join(parts)
 
@@ -144,7 +143,7 @@ class StoryChainIC(gl.Contract):
         if not verdict["coherent"]:
             raise Exception(f"sentence rejected by AI consensus: {verdict['reason']}")
 
-        self.chain_sentences.get_or_insert_default(chain_id).append(Sentence(
+        sentences.append(Sentence(
             text=sentence,
             author=gl.message.sender_address,
             created_at="",
